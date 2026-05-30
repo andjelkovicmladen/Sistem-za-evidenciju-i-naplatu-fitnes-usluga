@@ -96,11 +96,10 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// U dev-u ne preusmeravamo na HTTPS da bi frontend (Vite proxy) mogao da koristi http://localhost:5000.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
-}
+// HTTPS redirect ne koristimo:
+// - U dev-u: Vite proxy gađa http://localhost:5000.
+// - U Azure App Service: HTTPS se rešava na load balanceru; redirect na nivou aplikacije ume da pravi petlje.
+//   (Force HTTPS može da se ukljuci u portalu kroz "TLS/SSL settings → HTTPS Only".)
 
 app.UseCors("AllowFrontend");
 

@@ -14,7 +14,11 @@ namespace BrokerBazePodataka
         private SqlTransaction transaction;
         public Broker()
         {
-            connection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DB;Integrated Security=True");
+            // Ako je postavljen FITNES_CONN_STR env var (npr. u Azure App Service), koristi njega.
+            // U suprotnom pada na lokalnu LocalDB konekciju — WinForms, TCP server i lokalni WebAPI rade nepromenjeno.
+            string cs = Environment.GetEnvironmentVariable("FITNES_CONN_STR")
+                ?? @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DB;Integrated Security=True";
+            connection = new SqlConnection(cs);
         }
         public void OpenConnection()
         {
