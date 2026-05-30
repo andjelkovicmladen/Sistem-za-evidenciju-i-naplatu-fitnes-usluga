@@ -3,8 +3,12 @@ import axios, { type AxiosError } from 'axios';
 export const TOKEN_KEY = 'fc_token';
 export const ADMIN_KEY = 'fc_admin';
 
+// U dev-u nije postavljen -> koristi se relativna /api putanja preko Vite proxy-ja.
+// U produkciji (Vercel) postaviti VITE_API_URL na pun URL backenda sa /api sufiksom.
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: API_BASE,
   headers: { 'Content-Type': 'application/json' },
 });
 
